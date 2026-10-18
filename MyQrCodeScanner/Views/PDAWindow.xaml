@@ -10,7 +10,8 @@
         Width="900" Height="665"
         Background="{DynamicResource MaterialDesignPaper}"
         Icon="/Resources/logo.ico" Loaded="Window_Loaded"
-        Closing="MainWindow_Closing"
+        Closing="MainWindow_Closing" Closed="Window_Closed"
+        StateChanged="Window_StateChanged"
         WindowStartupLocation="CenterScreen"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         mc:Ignorable="d">
@@ -41,10 +42,6 @@
                     Margin="5"
                     Content="{DynamicResource Stop}"
                     Click="btnStop_Click" />
-            <TextBlock Foreground="{DynamicResource MaterialDesignColumnHeader}"
-                       Text="{DynamicResource ClickXToMini}"
-                       DockPanel.Dock="Right"
-                       FontSize="16" />
             <MediaElement x:Name="MediaElement1"
                           Width="0" Height="0"
                           Visibility="Hidden" />

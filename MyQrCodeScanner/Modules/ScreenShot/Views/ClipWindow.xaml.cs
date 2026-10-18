@@ -46,6 +46,9 @@ namespace HandyScreenshot.Views
         public ICommand CloseCommand { get; set; }
         public ScreenshotState State { get; }
         public string Result { get; set; }
+        public string ResultPrompt { get; set; }
+
+        private bool postProcessMatched;
         #endregion
 
         #region Main Functions
@@ -127,6 +130,9 @@ namespace HandyScreenshot.Views
             if (res.success)
             {
                 Result = res.result;
+                ResultPrompt = postProcessMatched
+                    ? LangHelper.GetStr("PostProcessResultCopied")
+                    : LangHelper.GetStr("ResultCopied");
                 Clipboard.SetText(Result);
                 Application.Current.Dispatcher.Invoke(() =>
                 {
@@ -171,6 +177,7 @@ namespace HandyScreenshot.Views
             var t1 = DateTime.Now.Ticks;
 
             var res = MyScanner.ScanCode(AreaImage);
+            postProcessMatched = PostProcessSettings.ApplyToResult(res, ScanMode.Screenshot);
             var t2 = DateTime.Now.Ticks;
             //Console.WriteLine("识别用时：" + ((t2 - t1) / 10000).ToString() + "ms");
 

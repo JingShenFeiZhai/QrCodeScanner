@@ -1,4 +1,4 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:sys="clr-namespace:System;assembly=mscorlib">
     <sys:String x:Key="MainWindowTitle">简易条码扫描</sys:String>
@@ -35,6 +35,7 @@
     <sys:String x:Key="Copy">复制</sys:String>
     <sys:String x:Key="Open">打开</sys:String>
     <sys:String x:Key="Apply">应用</sys:String>
+    <sys:String x:Key="PasteFromClipboard">粘贴</sys:String>
     <sys:String x:Key="Info">提示</sys:String>
     <sys:String x:Key="Yes">是</sys:String>
     
@@ -83,6 +84,30 @@
     <sys:String x:Key="Processing">识别中...</sys:String>
     <sys:String x:Key="ScanFail">识别失败：</sys:String>
     <sys:String x:Key="ResultCopied">识别结果已复制到剪切板</sys:String>
+    <sys:String x:Key="PostProcessResultCopied">正则匹配结果已复制到剪切板</sys:String>
+    <sys:String x:Key="PostProcessScanResult">正则匹配结果</sys:String>
     <sys:String x:Key="Show">显示窗口</sys:String>
     <sys:String x:Key="Exit">退出程序</sys:String>
+    <sys:String x:Key="PostProcessSettings">后处理设置</sys:String>
+    <sys:String x:Key="PostProcessHint">对扫描结果按所选模块，从第一条规则开始依次尝试。首条匹配成功的规则立即输出并停止后续规则；全部未匹配时输出原文。</sys:String>
+    <sys:String x:Key="PostProcessModesLabel">启用正则匹配的模块：</sys:String>
+    <sys:String x:Key="PostProcessRulesLabel">正则匹配规则（按顺序执行）</sys:String>
+    <sys:String x:Key="PostProcessRulesHint">从上到下依次尝试；某条匹配成功立即返回并停止；全部未匹配则返回原文。</sys:String>
+    <sys:String x:Key="PostProcessRuleName">规则 {0}</sys:String>
+    <sys:String x:Key="AddRule">新增规则</sys:String>
+    <sys:String x:Key="DeleteRule">删除规则</sys:String>
+    <sys:String x:Key="PostProcessPatternHint">正则表达式（不含 / 和 /g，支持中文；符号建议在英文输入状态下输入）</sys:String>
+    <sys:String x:Key="PostProcessMatchLabel">match 下标</sys:String>
+    <sys:String x:Key="PostProcessMatchSuffix">（从 0 开始，可用 / 分隔多个）</sys:String>
+    <sys:String x:Key="PostProcessGroupLabel">捕获组索引</sys:String>
+    <sys:String x:Key="PostProcessGroupSuffix">（0=整个匹配，可用 / 分隔多个）</sys:String>
+    <sys:String x:Key="PostProcessNoMatch">全部规则均未匹配时保留原文。</sys:String>
+    <sys:String x:Key="PostProcessSaved">后处理设置已保存</sys:String>
+    <sys:String x:Key="PostProcessInvalid">后处理正则无效：</sys:String>
+    <sys:String x:Key="PostProcessInvalidIndex">match 下标和捕获组索引必须是非负整数，多个值用 / 分隔。</sys:String>
+    <sys:String x:Key="PostProcessIndexCountMismatch">match 与捕获组的项数不一致，请使用相同数量的 / 分隔数字。</sys:String>
+    <sys:String x:Key="PostProcessModeScreenshot">截屏识别</sys:String>
+    <sys:String x:Key="PostProcessModeCamera">摄像头识别</sys:String>
+    <sys:String x:Key="PostProcessModeImageFile">本地图片识别</sys:String>
+    <sys:String x:Key="PostProcessModeScannerGun">扫描枪</sys:String>
 </ResourceDictionary>

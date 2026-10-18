@@ -38,6 +38,7 @@ namespace MyQrCodeScanner
         private string resultstr;
         private SnackbarMessageQueue sm;
         public bool isshortcut;
+        public ScanMode PostProcessMode { get; set; } = ScanMode.Screenshot;
         #endregion
 
         #region Canvas Function
@@ -125,6 +126,7 @@ namespace MyQrCodeScanner
                 return false;
 
             var res = MyScanner.ScanCode(cur);
+            bool postProcessMatched = PostProcessSettings.ApplyToResult(res, PostProcessMode);
             switch (res.status)
             {
                 case result_status.error:
@@ -132,7 +134,7 @@ namespace MyQrCodeScanner
                     break;
                 case result_status.ok:
                     resultstr = stringhelper.ResListToString(res.data);
-                    ResultWindow rw = new ResultWindow(res.data[0].data, res.data[0].type, true, true);
+                    ResultWindow rw = new ResultWindow(res.data[0].data, res.data[0].type, true, true, postProcessMatched);
                     bool? rv = rw.ShowDialog();
                     if (rv == true)
                     {
@@ -157,6 +159,7 @@ namespace MyQrCodeScanner
             var t1 = DateTime.Now.Ticks;
 
             var res = MyScanner.ScanCode(cur);
+            bool postProcessMatched = PostProcessSettings.ApplyToResult(res, PostProcessMode);
             var t2 = DateTime.Now.Ticks;
             //Console.WriteLine("识别用时：" + ((t2 - t1) / 10000).ToString() + "ms");
             myResult = res;
@@ -188,7 +191,7 @@ namespace MyQrCodeScanner
                     
                     if (res.data.Count == 1 || !res.haslocation)
                     {
-                        ResultWindow rw = new ResultWindow(res.data[0].data, res.data[0].type, true, false);
+                        ResultWindow rw = new ResultWindow(res.data[0].data, res.data[0].type, true, false, postProcessMatched);
                         this.Hide();
                         bool? rv = rw.ShowDialog();
                         if (rv == true)

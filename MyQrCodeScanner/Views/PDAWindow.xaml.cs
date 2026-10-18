@@ -71,11 +71,17 @@ namespace MyQrCodeScanner
 
         private LoopWorker worker;
         TaskbarIcon myTaskbarIcon;
+        private readonly InitWindow mainWindow;
         #endregion
 
         #region Constructors
-        public PDAWindow()
+        public PDAWindow() : this(null)
         {
+        }
+
+        public PDAWindow(InitWindow initWindow)
+        {
+            mainWindow = initWindow;
             AudioPath = IniHelper.GetKeyValue("main", "audiopath", "", IniHelper.inipath);
             InputMode = IniHelper.GetKeyValue("main", "inputmode", "1", IniHelper.inipath);
             PlayAudio = Convert.ToBoolean(IniHelper.GetKeyValue("main", "playaudio", "false", IniHelper.inipath));
@@ -86,22 +92,45 @@ namespace MyQrCodeScanner
                     CurrentDevice = d;
             InitializeComponent();
             this.DataContext = this;
-            this.Closing += MainWindow_Closing;
         }
         #endregion
 
         #region Windows Events
         private void MainWindow_Closing(object sender, CancelEventArgs e)
         {
-            //StopCamera();
-            if (Application.Current.MainWindow == null)
-            {
-                StopCamera();
+            // Closing the scanner window must leave scanner mode and return to
+            // the main window. It must not hide to the tray like the old version.
+            if (Application.Current.Dispatcher.HasShutdownStarted)
                 return;
+
+            StopCamera();
+        }
+
+        private void Window_Closed(object sender, EventArgs e)
+        {
+            if (Application.Current.Dispatcher.HasShutdownStarted)
+                return;
+
+            if (mainWindow != null)
+            {
+                Application.Current.MainWindow = mainWindow;
+                mainWindow.Show();
+                mainWindow.Activate();
             }
-            e.Cancel = true;
-            this.Hide();
-            myTaskbarIcon.ShowBalloonTip(LangHelper.GetStr("RunInBackTipTitle"), LangHelper.GetStr("RunInBackTipText"), BalloonIcon.Info);
+        }
+
+        private void Window_StateChanged(object sender, EventArgs e)
+        {
+            if (WindowState != WindowState.Minimized)
+                return;
+
+            if (GlobalSettings.hideToTray)
+            {
+                TaskbarIcon icon = (TaskbarIcon)FindResource("Taskbar");
+                icon.ShowBalloonTip(LangHelper.GetStr("RunInBackTipTitle"), LangHelper.GetStr("RunInBackTipText"), BalloonIcon.Info);
+                this.Hide();
+            }
+            // Otherwise leave the normal minimize-to-taskbar behaviour alone.
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -223,7 +252,8 @@ namespace MyQrCodeScanner
                 player.ShutDown();
             }
             img = null;
-            worker.StopRun();
+            if (worker != null)
+                worker.StopRun();
         }
 
         private void Init(MediaFoundationDeviceInfo videoDevice, MediaFoundationVideoFormatInfo videoFormat)
@@ -366,6 +396,7 @@ namespace MyQrCodeScanner
             }
 
             var res = MyScanner.ScanCode(imgbuffer);
+            PostProcessSettings.ApplyToResult(res, ScanMode.ScannerGun);
             switch (res.status)
             {
                 case result_status.error:

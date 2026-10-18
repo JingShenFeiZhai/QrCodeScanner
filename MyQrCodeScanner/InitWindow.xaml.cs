@@ -149,7 +149,7 @@ namespace MyQrCodeScanner
             Thread.Sleep(200);
             var t = BitmapHelper.CaptureScreenToBitmap(0, 0,
                 ScreenHelper.GetLogicalWidth(), ScreenHelper.GetLogicalHeight());
-            PicWindow m = new PicWindow(t);
+            PicWindow m = new PicWindow(t) { PostProcessMode = ScanMode.Screenshot };
             m.isshortcut = isshortcut;
             m.PreScan();
             this.Opacity = 1;
@@ -175,7 +175,7 @@ namespace MyQrCodeScanner
             var img = OpenImageFile();
             if (img != null)
             {
-                PicWindow m = new PicWindow(img);
+                PicWindow m = new PicWindow(img) { PostProcessMode = ScanMode.ImageFile };
                 this.Hide();
                 m.PreScan();
             }
@@ -218,7 +218,7 @@ namespace MyQrCodeScanner
         #region Mode 4 - PDA
         private void Button_Click_3(object sender, RoutedEventArgs e)
         {
-            PDAWindow w = new PDAWindow();
+            PDAWindow w = new PDAWindow(this);
             Application.Current.MainWindow = w;
             w.Show();
             this.Hide();

@@ -16,7 +16,7 @@ namespace MyQrCodeScanner
         public static string GetKeyValue(string sectionName, string keyName, string defaultText, string filename = "DEFAULT")
         {
             if (filename == "DEFAULT") filename = inipath;
-            int BufferSize = 255;
+            int BufferSize = 4096;
             StringBuilder keyValue = new StringBuilder(BufferSize);
             string text = "";
             uint Rvalue = GetPrivateProfileString(sectionName, keyName, text, keyValue, (uint)BufferSize, filename);

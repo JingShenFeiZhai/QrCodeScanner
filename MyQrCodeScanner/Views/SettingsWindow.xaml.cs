@@ -1,6 +1,7 @@
-﻿using MyQrCodeScanner.Modules;
+using MyQrCodeScanner.Modules;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
@@ -111,6 +112,7 @@ namespace MyQrCodeScanner.Views
                 GlobalSettings.isChinese = value;
                 this.RaisePropertyChanged("IsChinese");
                 LangHelper.ChangeLang(value);
+                PostProcessSettings.RefreshLanguage();
             }
         }
         public bool IgnoreDup
@@ -129,6 +131,16 @@ namespace MyQrCodeScanner.Views
             {
                 GlobalSettings.isInputEnter = value;
             }
+        }
+
+        public ObservableCollection<PostProcessRule> PostProcessRules
+        {
+            get { return PostProcessSettings.Rules; }
+        }
+
+        public IReadOnlyList<PostProcessModeOption> PostProcessModes
+        {
+            get { return PostProcessSettings.ModeOptions; }
         }
 
         private InitWindow mw;
@@ -192,6 +204,99 @@ namespace MyQrCodeScanner.Views
                     IsAutoRun = Autorun.IsSelfRun();
                 }
             }
+        }
+
+        private void Window_Closing(object sender, CancelEventArgs e)
+        {
+            PostProcessSettings.Save();
+        }
+
+        private void PostProcessApply_Click(object sender, RoutedEventArgs e)
+        {
+            foreach (PostProcessRule rule in PostProcessSettings.Rules)
+            {
+                string error;
+                if (!PostProcessSettings.TryValidatePattern(rule.Pattern, out error))
+                {
+                    MessageBox.Show(LangHelper.GetStr("PostProcessInvalid") + " [" + rule.DisplayName + "]\n" + error,
+                        LangHelper.GetStr("Error"), MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return;
+                }
+
+                if (!PostProcessSettings.TryValidateIndexes(rule, out error))
+                {
+                    MessageBox.Show(LangHelper.GetStr("PostProcessInvalid") + " [" + rule.DisplayName + "]\n" + error,
+                        LangHelper.GetStr("Error"), MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return;
+                }
+            }
+
+            PostProcessSettings.Save();
+            PostProcessStatus.Text = LangHelper.GetStr("PostProcessSaved");
+        }
+
+        private void AddRule_Click(object sender, RoutedEventArgs e)
+        {
+            PostProcessSettings.AddRule();
+            if (PostProcessRuleScroll != null)
+                PostProcessRuleScroll.ScrollToEnd();
+        }
+
+        private void DeleteRule_Click(object sender, RoutedEventArgs e)
+        {
+            PostProcessRule rule = ((FrameworkElement)sender).DataContext as PostProcessRule;
+            if (rule != null)
+                PostProcessSettings.RemoveRule(rule);
+        }
+
+        private void PastePattern_Click(object sender, RoutedEventArgs e)
+        {
+            PostProcessRule rule = ((FrameworkElement)sender).DataContext as PostProcessRule;
+            if (rule == null)
+                return;
+
+            try
+            {
+                if (Clipboard.ContainsText())
+                    rule.Pattern = Clipboard.GetText();
+            }
+            catch (Exception)
+            {
+                // The clipboard can be temporarily locked by another process.
+            }
+        }
+
+        private void RegexBox_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            TextBox box = sender as TextBox;
+            if (box != null && !box.IsKeyboardFocusWithin)
+                box.Focus();
+        }
+
+        private void RegexBox_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key != Key.V || (Keyboard.Modifiers & ModifierKeys.Control) != ModifierKeys.Control)
+                return;
+
+            TextBox box = sender as TextBox;
+            if (box == null)
+                return;
+
+            try
+            {
+                if (Clipboard.ContainsText())
+                {
+                    int start = box.SelectionStart;
+                    string text = Clipboard.GetText();
+                    box.SelectedText = text;
+                    box.SelectionStart = start + text.Length;
+                }
+            }
+            catch (Exception)
+            {
+                // The clipboard can be temporarily locked by another process.
+            }
+            e.Handled = true;
         }
 
         private void ChangeIsStarOn()

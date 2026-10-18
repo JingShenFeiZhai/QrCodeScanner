@@ -23,11 +23,14 @@ namespace MyQrCodeScanner
     public partial class ResultWindow : Window, INotifyPropertyChanged
     {
         #region Constructors
-        public ResultWindow(string res,string type,bool isdialog1,bool cancontinue)
+        public ResultWindow(string res,string type,bool isdialog1,bool cancontinue,bool postProcessMatched = false)
         {
             InitializeComponent();
             this.DataContext = this;
             isdailog = isdialog1;
+            WindowTitle = postProcessMatched
+                ? LangHelper.GetStr("PostProcessScanResult")
+                : LangHelper.GetStr("ScanResult");
             Data = res;
             if (!CheckURI(res))
                 grid1.ColumnDefinitions[0].Width = new GridLength(0, GridUnitType.Star);
@@ -38,6 +41,17 @@ namespace MyQrCodeScanner
         #endregion
 
         #region Fields
+        private string windowTitle;
+        public string WindowTitle
+        {
+            get { return windowTitle; }
+            set
+            {
+                windowTitle = value;
+                this.OnPropertyChanged("WindowTitle");
+            }
+        }
+
         private string codetype;
         public string CodeType
         {

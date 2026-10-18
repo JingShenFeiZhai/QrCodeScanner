@@ -302,6 +302,7 @@ namespace MyQrCodeScanner
             }
 
             var res = MyScanner.ScanCode(imgbuffer);
+            bool postProcessMatched = PostProcessSettings.ApplyToResult(res, ScanMode.Camera);
             myResult = res;
             switch (res.status)
             {
@@ -314,7 +315,7 @@ namespace MyQrCodeScanner
                         StopCamera();
                         if (res.data.Count == 1 || !res.haslocation)
                         {
-                            ResultWindow rw = new ResultWindow(res.data[0].data, res.data[0].type, true, true);
+                            ResultWindow rw = new ResultWindow(res.data[0].data, res.data[0].type, true, true, postProcessMatched);
                             this.Hide();
                             bool? rv = rw.ShowDialog();
                             if (rv == true)

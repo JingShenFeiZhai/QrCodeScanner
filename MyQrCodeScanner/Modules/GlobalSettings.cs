@@ -34,6 +34,7 @@ namespace MyQrCodeScanner.Modules
             hideToTray = Convert.ToBoolean(IniHelper.GetKeyValue("main", "hideToTray", "false", IniHelper.inipath));
             ignoreDup = Convert.ToBoolean(IniHelper.GetKeyValue("main", "ignoreDup", "false", IniHelper.inipath));
             isInputEnter = Convert.ToBoolean(IniHelper.GetKeyValue("main", "isInputEnter", "false", IniHelper.inipath));
+            PostProcessSettings.Load();
         }
 
         public static void SaveSettings()
@@ -46,6 +47,7 @@ namespace MyQrCodeScanner.Modules
             IniHelper.SetKeyValue("main", "ignoreDup", ignoreDup.ToString(), IniHelper.inipath);
             IniHelper.SetKeyValue("main", "isChinese", isChinese.ToString(), IniHelper.inipath);
             IniHelper.SetKeyValue("main", "isInputEnter", isInputEnter.ToString(), IniHelper.inipath);
+            PostProcessSettings.Save();
         }
     }
 }
