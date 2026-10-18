@@ -1,9 +1,9 @@
 # MyQrCodeScanner v1.52-Fork
 
-> 基于 \[1357310795/QrCodeScanner](https://github.com/1357310795/QrCodeScanner) 的增强分支。
+> 基于 [1357310795/QrCodeScanner](https://github.com/1357310795/QrCodeScanner) 的增强分支。
 > 上游基础版本为 a093462f45bd57aa82bdd92afa3e74a4c030d73c，主窗口版本号显示为 v1.52-Fork。
 
-本项目保留上游的四种使用模式和三种识别引擎，并在此基础上增强了扫描枪窗口行为、后处理规则和正则输入体验。
+本项目保留上游的四种使用模式和三种识别引擎，并新增了扫描枪窗口行为调整、后处理设置页面、正则中文输入和多索引输出等能力。
 
 ## 上游功能
 
@@ -17,7 +17,7 @@
 
 ## 本 Fork 新增功能
 
-### 1\. 扫描枪窗口关闭与最小化
+### 1. 扫描枪窗口关闭与最小化
 
 “简易条码扫描”窗口右上角按钮的行为已调整：
 
@@ -28,9 +28,11 @@
   * 关闭时正常最小化到任务栏；
 * 删除窗口顶部关于 × / − 的说明文字。
 
-### 2\. 全局后处理规则
+### 2. 新增“后处理设置”页面
 
-“设置 → 后处理设置”改为全局规则模式：
+“设置 → 后处理设置”是本 Fork 新增的页面，上游没有此功能。
+
+该页面采用全局规则模式：
 
 * 最上方有四个模块复选框：
 
@@ -41,7 +43,7 @@
 * 所有勾选模块共享同一份规则列表，不再为每个模块分别保存规则；
 * 支持“新增规则”和“删除规则”，规则编号自动更新；
 * 每条规则头部显示“规则 N:”，冒号后直接是名称/描述输入框，不另设标签；
-* 名称只作备注，不参与匹配，保存为 ruleN\_name。
+* 名称只作备注，不参与匹配，保存为 ruleN_name。
 
 规则按照列表顺序执行：
 
@@ -51,7 +53,7 @@
 4. 未勾选的模块只扫描，不执行正则；
 5. 空正则、非法正则、match 不存在、捕获组不存在时跳过该规则，继续下一条。
 
-### 3\. 正则输入与索引增强
+### 3. 正则输入与索引增强
 
 * 正则输入框启用系统输入法，可以直接输入中文正则；
 * 正则符号（括号、竖线、星号等）建议切换到英文输入状态输入；
@@ -71,35 +73,30 @@
 
 match 和捕获组按位置配对：
 
-&#x20;   match: 0/2
+    match: 0/2
     group: 1/2
-
 
 表示：
 
-&#x20;   第 1 个 match 的第 1 个捕获组
+    第 1 个 match 的第 1 个捕获组
     +
     第 3 个 match 的第 2 个捕获组
-
 
 两段结果按顺序无缝拼接，不添加分隔符。
 
 ### 示例
 
-&#x20;   正则：\\d,(\\d{10}),(\\d{8}),\\d
+    正则：\d,(\d{10}),(\d{8}),\d
     match：0/2
     group：1/2
 
-
 输入：
 
-&#x20;   1,1234567890,20251231,9;2,2345678901,20260101,8;3,3456789012,20260202,7
-
+    1,1234567890,20251231,9;2,2345678901,20260101,8;3,3456789012,20260202,7
 
 输出：
 
-&#x20;   123456789020260202
-
+    123456789020260202
 
 ### 约束
 
@@ -112,23 +109,21 @@ match 和捕获组按位置配对：
 
 后处理设置保存在：
 
-&#x20;   %APPDATA%\\MyQrCodeScanner\\Settings.ini
+    %APPDATA%\MyQrCodeScanner\Settings.ini
 
+对应 [postprocess] 段，版本 2：
 
-对应 \[postprocess] 段，版本 2：
-
-&#x20;   \[postprocess]
+    [postprocess]
     version=2
-    module\_screenshot=False
-    module\_camera=False
-    module\_imagefile=False
-    module\_scannergun=True
+    module_screenshot=False
+    module_camera=False
+    module_imagefile=False
+    module_scannergun=True
     rules=1
-    rule0\_name=订单号
-    rule0\_pattern=^ORDER: \*(\[0-9]+)$
-    rule0\_match=0
-    rule0\_group=1
-
+    rule0_name=订单号
+    rule0_pattern=^ORDER: *([0-9]+)$
+    rule0_match=0
+    rule0_group=1
 
 旧版按模块保存的 version 1 设置会在首次加载时迁移为全局规则。
 
@@ -141,13 +136,12 @@ match 和捕获组按位置配对：
 * 可构建 net472-windows 的 .NET SDK
 * WPF
 
-  dotnet restore MyQrCodeScanner.sln
-dotnet build MyQrCodeScanner.sln -c Release
+    dotnet restore MyQrCodeScanner.sln
+    dotnet build MyQrCodeScanner.sln -c Release
 
 生成目录：
 
-&#x20;   MyQrCodeScanner/bin/Release/net472-windows/
-
+    MyQrCodeScanner/bin/Release/net472-windows/
 
 运行时需要同时保留：
 
@@ -176,4 +170,3 @@ dotnet build MyQrCodeScanner.sln -c Release
 * 本 Fork 的修改说明另见 [FORK.md](FORK.md)
 
 感谢上游作者及所有依赖项目。
-
