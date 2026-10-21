@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+using System;
+using System.ComponentModel;
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Windows;
@@ -32,6 +33,11 @@ namespace HandyScreenshot.Views
             State = new ScreenshotState();
             Image = backgroundimage;
             MonitorInfo = monitorInfo;
+        }
+        protected override void OnClosed(EventArgs e)
+        {
+            TopmostHelper.Detach(this);
+            base.OnClosed(e);
         }
         #endregion
 
@@ -138,6 +144,8 @@ namespace HandyScreenshot.Views
                 {
                     this.Content = new AreaScanSuccUC();
                 });
+                this.Topmost = true;
+                TopmostHelper.Attach(this);
             }
             else
             {
@@ -148,7 +156,8 @@ namespace HandyScreenshot.Views
                 });
             }
             this.MouseLeftButtonDown += delegate { this.DragMove(); };
-            this.Topmost = false;
+            if (!res.success)
+                this.Topmost = false;
             this.ResizeMode = System.Windows.ResizeMode.CanResizeWithGrip;
 
             if (GlobalSettings.fastCaptureMode)

@@ -1,4 +1,4 @@
-﻿using MaterialDesignThemes.Wpf;
+using MaterialDesignThemes.Wpf;
 using MyQrCodeScanner.Modules;
 using System;
 using System.Collections.Generic;
@@ -123,8 +123,14 @@ namespace MyQrCodeScanner
         #region Window Events
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            TopmostHelper.Attach(this);
             Clipboard.SetText(text1.Text);
             this.Activate();
+        }
+
+        private void Window_Closed(object sender, EventArgs e)
+        {
+            TopmostHelper.Detach(this);
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)

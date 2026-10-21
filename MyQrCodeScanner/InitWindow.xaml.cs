@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Threading;
 using System.Windows;
@@ -71,7 +71,7 @@ namespace MyQrCodeScanner
         #region Main Function
         private void TextBlock_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            Process.Start("explorer", "https://github.com/1357310795/QrCodeScanner");
+            Process.Start("explorer", "https://github.com/JingShenFeiZhai/QrCodeScanner");
         }
 
         private IntPtr WndProc(IntPtr hWnd, int msg, IntPtr wideParam, IntPtr longParam, ref bool handled)

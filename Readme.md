@@ -1,9 +1,15 @@
-# MyQrCodeScanner v1.52-Fork
+# MyQrCodeScanner v1.52-Fork.2
 
 > 基于 [1357310795/QrCodeScanner](https://github.com/1357310795/QrCodeScanner) 的增强分支。
-> 上游基础版本为 a093462f45bd57aa82bdd92afa3e74a4c030d73c，主窗口版本号显示为 v1.52-Fork。
+> Fork 仓库：[JingShenFeiZhai/QrCodeScanner](https://github.com/JingShenFeiZhai/QrCodeScanner)
+> 上游基础版本为 a093462f45bd57aa82bdd92afa3e74a4c030d73c，主窗口版本号显示为 v1.52-Fork.2。
 
-本项目保留上游的四种使用模式和三种识别引擎，并新增了扫描枪窗口行为调整、后处理设置页面、正则中文输入和多索引输出等能力。
+## 版本历史
+
+* **v1.52-Fork.1**：第 13 轮交付版，包含全局后处理、规则名称、多 match/捕获组索引等。
+* **v1.52-Fork.2**：当前版本，在 .1 基础上增加识别结果弹窗置顶修复。
+
+本项目保留上游的四种使用模式和三种识别引擎，并新增了扫描枪窗口行为调整、后处理设置页面、正则中文输入、多索引输出和识别结果弹窗置顶等能力。
 
 ## 上游功能
 
@@ -54,7 +60,7 @@
 5. 空正则、非法正则、match 不存在、捕获组不存在时跳过该规则，继续下一条；
 6. match 和捕获组设置只接受数字和“/”，规则同 matchAll 方法下标的定义，两处需要成对设置，捕获结果无缝连接。
 
-### 示例
+#### 示例
 
     正则：\d,(\d{10}),(\d{8}),\d
     match：0/2
@@ -68,12 +74,22 @@
 
     123456789020260202
 
-### 约束
+#### 约束
 
 * match 和捕获组的项数必须相同；
 * 点击“应用”时项数不一致会弹出错误提示，并忽略本次应用；
 * 任意一个 match 不存在，或对应捕获组不存在，整条规则失败，继续尝试下一条规则；
 * 捕获组存在但没有参与匹配时，该段输出空字符串。
+
+### 3. 识别结果弹窗置顶
+
+针对商店版 QuickLook 预览窗口会遮挡识别结果的问题：
+
+* ResultWindow、GoPanel 和截图成功覆盖层会主动置顶；
+* 检测 QuickLook 进程窗口，以 QuickLook 上方窗口作为 Z 序锚点，避免被商店版 QuickLook 覆盖；
+* 区域截图识别成功后会保持 Topmost，不再在成功分支中取消置顶；
+* 弹窗显示后每 700ms 低频重申，不改变原有自动关闭策略；
+* GoPanel 的关闭按钮始终可见，用户可手动关闭；鼠标移出自动关闭仍然保留。
 
 ## 设置保存位置
 
@@ -112,15 +128,6 @@
 生成目录：
 
     MyQrCodeScanner/bin/Release/net472-windows/
-
-运行时需要同时保留：
-
-* MyQrCodeScanner.exe
-* 同目录 DLL
-* MyQrCodeScanner.exe.config
-* data/ 文件夹
-
-不能只复制 exe。
 
 ## 已知限制
 

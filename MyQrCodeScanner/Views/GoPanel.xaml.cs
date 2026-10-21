@@ -1,4 +1,4 @@
-﻿using MyQrCodeScanner.Modules;
+using MyQrCodeScanner.Modules;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -93,8 +93,12 @@ namespace MyQrCodeScanner
         #endregion
 
         #region 打开、关闭动画相关
+        private Window panelHostWindow;
+
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
+            panelHostWindow = Window.GetWindow(this);
+            TopmostHelper.Attach(panelHostWindow);
             text1.Focus();
             var da = AnimationHelper.CubicBezierDoubleAnimation(TimeSpan.FromSeconds(0.25), 0, 1, "0,.72,.57,1.2");
             ScaleTransform s = new ScaleTransform(1, 1);
@@ -141,6 +145,12 @@ namespace MyQrCodeScanner
         private void UserControl_MouseLeave(object sender, MouseEventArgs e)
         {
             if (autoclose) OnClose();
+        }
+
+        private void UserControl_Unloaded(object sender, RoutedEventArgs e)
+        {
+            TopmostHelper.Detach(panelHostWindow);
+            panelHostWindow = null;
         }
         #endregion
 
