@@ -1,15 +1,16 @@
-# MyQrCodeScanner v1.52-Fork.2
+# MyQrCodeScanner v1.52-Fork.3
 
 > 基于 [1357310795/QrCodeScanner](https://github.com/1357310795/QrCodeScanner) 的增强分支。
 > Fork 仓库：[JingShenFeiZhai/QrCodeScanner](https://github.com/JingShenFeiZhai/QrCodeScanner)
-> 上游基础版本为 a093462f45bd57aa82bdd92afa3e74a4c030d73c，主窗口版本号显示为 v1.52-Fork.2。
+> 上游基础版本为 a093462f45bd57aa82bdd92afa3e74a4c030d73c，主窗口版本号显示为 v1.52-Fork.3。
 
 ## 版本历史
 
 * **v1.52-Fork.1**：第 13 轮交付版，包含全局后处理、规则名称、多 match/捕获组索引等。
-* **v1.52-Fork.2**：当前版本，在 .1 基础上增加识别结果弹窗置顶修复。
+* **v1.52-Fork.2**：增加识别结果弹窗置顶修复。
+* **v1.52-Fork.3**：当前版本，增加扫描成功/后处理匹配提示音；修复从托盘恢复窗口后不激活的问题。
 
-本项目保留上游的四种使用模式和三种识别引擎，并新增了扫描枪窗口行为调整、后处理设置页面、正则中文输入、多索引输出和识别结果弹窗置顶等能力。
+本项目保留上游的四种使用模式和三种识别引擎，并新增了扫描枪窗口行为调整、后处理设置页面、正则中文输入、多索引输出、识别结果弹窗置顶和扫描提示音等能力。
 
 ## 上游功能
 
@@ -91,27 +92,19 @@
 * 弹窗显示后每 700ms 低频重申，不改变原有自动关闭策略；
 * GoPanel 的关闭按钮始终可见，用户可手动关闭；鼠标移出自动关闭仍然保留。
 
+### 4. 扫描提示音
+
+* 设置 → 功能设置新增“提示音”设置；
+* “扫描成功”开关控制 du 声；
+* “扫描成功且后处理匹配成功”开关控制 di 声；
+* 后处理匹配成功时优先 di；di 关闭时回退 du；两者都关闭则静音；
+* 四种识别模式共用同一套设置，开启开关时立即试听对应声音。
+
 ## 设置保存位置
 
 后处理设置保存在：
 
     %APPDATA%\MyQrCodeScanner\Settings.ini
-
-对应 [postprocess] 段，版本 2：
-
-    [postprocess]
-    version=2
-    module_screenshot=False
-    module_camera=False
-    module_imagefile=False
-    module_scannergun=True
-    rules=1
-    rule0_name=订单号
-    rule0_pattern=^ORDER: *([0-9]+)$
-    rule0_match=0
-    rule0_group=1
-
-旧版按模块保存的 version 1 设置会在首次加载时迁移为全局规则。
 
 ## 构建
 

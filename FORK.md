@@ -1,8 +1,8 @@
-# MyQrCodeScanner v1.52-Fork.2
+# MyQrCodeScanner v1.52-Fork.3
 
 Fork of [1357310795/QrCodeScanner](https://github.com/1357310795/QrCodeScanner), maintained at
 [JingShenFeiZhai/QrCodeScanner](https://github.com/JingShenFeiZhai/QrCodeScanner), based on upstream
-commit a093462f45bd57aa82bdd92afa3e74a4c030d73c. The version label in the main window is v1.52-Fork.2.
+commit a093462f45bd57aa82bdd92afa3e74a4c030d73c. The version label in the main window is v1.52-Fork.3.
 
 ## Changes in this fork
 

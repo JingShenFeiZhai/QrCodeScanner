@@ -1,10 +1,11 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using MyQrCodeScanner.Modules;
 
 namespace MyQrCodeScanner
 {
@@ -17,12 +18,7 @@ namespace MyQrCodeScanner
                 return new DelegateCommand
                 {
                     CanExecuteFunc = () => true,//Application.Current.MainWindow.IsVisible == false,
-                    CommandAction = () =>
-                    {
-                        Application.Current.MainWindow.WindowState = WindowState.Normal;
-                        Application.Current.MainWindow.Show();
-                        Application.Current.MainWindow.Activate();
-                    }
+                    CommandAction = () => WindowActivationHelper.ShowLastActiveWindow()
                 };
             }
         }

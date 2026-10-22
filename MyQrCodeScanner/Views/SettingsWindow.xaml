@@ -37,6 +37,29 @@
                     </StackPanel>
                     <StackPanel Margin="0,4,0,0" Orientation="Horizontal">
                         <TextBlock VerticalAlignment="Center"
+                                   Text="{DynamicResource SoundHint}"
+                                   FontSize="14" />
+                        <TextBlock VerticalAlignment="Center"
+                                   Margin="8,0,0,0"
+                                   Text="{DynamicResource SoundSuccess}"
+                                   FontSize="14" />
+                        <ToggleButton VerticalAlignment="Center"
+                                      Margin="8,3"
+                                      IsChecked="{Binding PlaySoundSuccess}"
+                                      AutomationProperties.AutomationId="PlaySoundSuccessToggle"
+                                      Style="{StaticResource MaterialDesignSwitchToggleButton}" />
+                        <TextBlock VerticalAlignment="Center"
+                                   Margin="20,0,0,0"
+                                   Text="{DynamicResource SoundMatched}"
+                                   FontSize="14" />
+                        <ToggleButton VerticalAlignment="Center"
+                                      Margin="8,3"
+                                      IsChecked="{Binding PlaySoundMatched}"
+                                      AutomationProperties.AutomationId="PlaySoundMatchedToggle"
+                                      Style="{StaticResource MaterialDesignSwitchToggleButton}" />
+                    </StackPanel>
+                    <StackPanel Margin="0,4,0,0" Orientation="Horizontal">
+                        <TextBlock VerticalAlignment="Center"
                                    Margin="0,0,0,0"
                                    Text="{DynamicResource MiniToTray}"
                                    FontSize="14" />

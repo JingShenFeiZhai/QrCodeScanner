@@ -1,4 +1,4 @@
-﻿using MaterialDesignThemes.Wpf;
+using MaterialDesignThemes.Wpf;
 using MediaFoundation;
 using MyQrCodeScanner.Modules;
 using System.ComponentModel;
@@ -47,6 +47,7 @@ namespace MyQrCodeScanner
                     CurrentDevice = d;
             InitializeComponent();
             this.DataContext = this;
+            WindowActivationHelper.Track(this);
             this.Closing += MainWindow_Closing;
             snackbar1.MessageQueue = new SnackbarMessageQueue(TimeSpan.FromSeconds(3));
         }
@@ -309,6 +310,8 @@ namespace MyQrCodeScanner
                 case result_status.error:
                     return TaskState.Started;
                 case result_status.ok:
+
+                    SoundHelper.PlayForScan(postProcessMatched);
 
                     this.Dispatcher.Invoke(() =>
                     {

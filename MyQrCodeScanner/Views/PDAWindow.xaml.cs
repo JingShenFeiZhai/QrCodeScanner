@@ -1,4 +1,4 @@
-﻿using Hardcodet.Wpf.TaskbarNotification;
+using Hardcodet.Wpf.TaskbarNotification;
 using MediaFoundation;
 using Microsoft.Win32;
 using MyQrCodeScanner.Modules;
@@ -92,6 +92,7 @@ namespace MyQrCodeScanner
                     CurrentDevice = d;
             InitializeComponent();
             this.DataContext = this;
+            WindowActivationHelper.Track(this);
         }
         #endregion
 
@@ -396,7 +397,7 @@ namespace MyQrCodeScanner
             }
 
             var res = MyScanner.ScanCode(imgbuffer);
-            PostProcessSettings.ApplyToResult(res, ScanMode.ScannerGun);
+            bool postProcessMatched = PostProcessSettings.ApplyToResult(res, ScanMode.ScannerGun);
             switch (res.status)
             {
                 case result_status.error:
@@ -404,6 +405,8 @@ namespace MyQrCodeScanner
                 case result_status.ok:
                     if (res.data[0].data != MyResult)
                     {
+                        if (!string.IsNullOrEmpty(res.data[0].data))
+                            SoundHelper.PlayForScan(postProcessMatched);
                         if (res.data[0].data != "" && MyResult == "")
                             DoPaste(res.data[0].data);
                         MyResult = res.data[0].data;

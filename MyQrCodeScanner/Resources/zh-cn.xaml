@@ -61,6 +61,9 @@
     <sys:String x:Key="FunctionSettings">功能设置</sys:String>
     <sys:String x:Key="UISettings">UI设置</sys:String>
     <sys:String x:Key="AutoRun">开机启动</sys:String>
+    <sys:String x:Key="SoundHint">提示音：</sys:String>
+    <sys:String x:Key="SoundSuccess">扫描成功</sys:String>
+    <sys:String x:Key="SoundMatched">扫描成功且后处理匹配成功</sys:String>
     <sys:String x:Key="MiniToTray">最小化时隐藏到托盘区</sys:String>
     <sys:String x:Key="IgnoreSame">忽略相同的条码</sys:String>
     <sys:String x:Key="CaptureMode">截屏模式：</sys:String>

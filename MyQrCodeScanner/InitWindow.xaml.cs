@@ -34,6 +34,7 @@ namespace MyQrCodeScanner
         {
             InitializeComponent();
             this.DataContext = this;
+            WindowActivationHelper.Track(this);
         }
         #endregion
 

@@ -1,4 +1,4 @@
-﻿using MaterialDesignThemes.Wpf;
+using MaterialDesignThemes.Wpf;
 using MyQrCodeScanner.Modules;
 using System;
 using System.Collections.Generic;
@@ -17,6 +17,7 @@ namespace MyQrCodeScanner
         public PicWindow(System.Drawing.Bitmap t)
         {
             InitializeComponent();
+            WindowActivationHelper.Track(this);
             back = t;
             image1.Source = BitmapHelper.GetBitmapImage(back);
             sm = new SnackbarMessageQueue(TimeSpan.FromSeconds(3));
@@ -26,6 +27,7 @@ namespace MyQrCodeScanner
         public PicWindow(BitmapSource t)
         {
             InitializeComponent();
+            WindowActivationHelper.Track(this);
             back = BitmapHelper.GetBitmap(t);
             image1.Source = t;
             sm = new SnackbarMessageQueue(TimeSpan.FromSeconds(3));
@@ -127,6 +129,8 @@ namespace MyQrCodeScanner
 
             var res = MyScanner.ScanCode(cur);
             bool postProcessMatched = PostProcessSettings.ApplyToResult(res, PostProcessMode);
+            if (res.status == result_status.ok)
+                SoundHelper.PlayForScan(postProcessMatched);
             switch (res.status)
             {
                 case result_status.error:
@@ -160,6 +164,8 @@ namespace MyQrCodeScanner
 
             var res = MyScanner.ScanCode(cur);
             bool postProcessMatched = PostProcessSettings.ApplyToResult(res, PostProcessMode);
+            if (res.status == result_status.ok)
+                SoundHelper.PlayForScan(postProcessMatched);
             var t2 = DateTime.Now.Ticks;
             //Console.WriteLine("识别用时：" + ((t2 - t1) / 10000).ToString() + "ms");
             myResult = res;

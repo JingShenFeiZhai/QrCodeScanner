@@ -26,10 +26,12 @@ namespace HandyScreenshot.Views
         {
             InitializeComponent();
             this.DataContext = this;
+            WindowActivationHelper.Track(this);
         }
         public ClipWindow(System.Drawing.Bitmap backgroundimage, MonitorInfo monitorInfo)
         {
             InitializeComponent();
+            WindowActivationHelper.Track(this);
             State = new ScreenshotState();
             Image = backgroundimage;
             MonitorInfo = monitorInfo;
@@ -139,6 +141,7 @@ namespace HandyScreenshot.Views
                 ResultPrompt = postProcessMatched
                     ? LangHelper.GetStr("PostProcessResultCopied")
                     : LangHelper.GetStr("ResultCopied");
+                SoundHelper.PlayForScan(postProcessMatched);
                 Clipboard.SetText(Result);
                 Application.Current.Dispatcher.Invoke(() =>
                 {

@@ -27,6 +27,7 @@ namespace MyQrCodeScanner
         {
             InitializeComponent();
             this.DataContext = this;
+            WindowActivationHelper.Track(this);
             isdailog = isdialog1;
             WindowTitle = postProcessMatched
                 ? LangHelper.GetStr("PostProcessScanResult")

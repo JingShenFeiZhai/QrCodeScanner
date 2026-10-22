@@ -30,6 +30,7 @@ namespace MyQrCodeScanner.Views
         {
             InitializeComponent();
             this.DataContext = this;
+            WindowActivationHelper.Track(this);
         }
 
         public SettingsWindow(InitWindow initWindow)
@@ -37,6 +38,7 @@ namespace MyQrCodeScanner.Views
             InitializeComponent();
             mw = initWindow;
             this.DataContext = this;
+            WindowActivationHelper.Track(this);
         }
         #endregion
 
@@ -130,6 +132,34 @@ namespace MyQrCodeScanner.Views
             set
             {
                 GlobalSettings.isInputEnter = value;
+            }
+        }
+
+        public bool PlaySoundSuccess
+        {
+            get { return GlobalSettings.playSoundSuccess; }
+            set
+            {
+                if (GlobalSettings.playSoundSuccess == value)
+                    return;
+                GlobalSettings.playSoundSuccess = value;
+                this.RaisePropertyChanged("PlaySoundSuccess");
+                if (value && IsLoaded)
+                    SoundHelper.PlaySuccessPreview();
+            }
+        }
+
+        public bool PlaySoundMatched
+        {
+            get { return GlobalSettings.playSoundMatched; }
+            set
+            {
+                if (GlobalSettings.playSoundMatched == value)
+                    return;
+                GlobalSettings.playSoundMatched = value;
+                this.RaisePropertyChanged("PlaySoundMatched");
+                if (value && IsLoaded)
+                    SoundHelper.PlayMatchedPreview();
             }
         }
 

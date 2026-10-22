@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,6 +20,8 @@ namespace MyQrCodeScanner.Modules
         public static bool hideToTray;
         public static bool ignoreDup;
         public static bool isInputEnter;
+        public static bool playSoundSuccess;
+        public static bool playSoundMatched;
 
         public static void ReadSettings()
         {
@@ -34,6 +36,8 @@ namespace MyQrCodeScanner.Modules
             hideToTray = Convert.ToBoolean(IniHelper.GetKeyValue("main", "hideToTray", "false", IniHelper.inipath));
             ignoreDup = Convert.ToBoolean(IniHelper.GetKeyValue("main", "ignoreDup", "false", IniHelper.inipath));
             isInputEnter = Convert.ToBoolean(IniHelper.GetKeyValue("main", "isInputEnter", "false", IniHelper.inipath));
+            playSoundSuccess = Convert.ToBoolean(IniHelper.GetKeyValue("main", "playSoundSuccess", "true", IniHelper.inipath));
+            playSoundMatched = Convert.ToBoolean(IniHelper.GetKeyValue("main", "playSoundMatched", "true", IniHelper.inipath));
             PostProcessSettings.Load();
         }
 
@@ -47,6 +51,8 @@ namespace MyQrCodeScanner.Modules
             IniHelper.SetKeyValue("main", "ignoreDup", ignoreDup.ToString(), IniHelper.inipath);
             IniHelper.SetKeyValue("main", "isChinese", isChinese.ToString(), IniHelper.inipath);
             IniHelper.SetKeyValue("main", "isInputEnter", isInputEnter.ToString(), IniHelper.inipath);
+            IniHelper.SetKeyValue("main", "playSoundSuccess", playSoundSuccess.ToString(), IniHelper.inipath);
+            IniHelper.SetKeyValue("main", "playSoundMatched", playSoundMatched.ToString(), IniHelper.inipath);
             PostProcessSettings.Save();
         }
     }

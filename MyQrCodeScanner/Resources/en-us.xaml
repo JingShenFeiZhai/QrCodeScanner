@@ -62,6 +62,9 @@
     <sys:String x:Key="FunctionSettings">Functions</sys:String>
     <sys:String x:Key="UISettings">UI</sys:String>
     <sys:String x:Key="AutoRun">Run at startup</sys:String>
+    <sys:String x:Key="SoundHint">Sounds:</sys:String>
+    <sys:String x:Key="SoundSuccess">Scan succeeded</sys:String>
+    <sys:String x:Key="SoundMatched">Scan succeeded + post-processing matched</sys:String>
     <sys:String x:Key="MiniToTray">Hide to tray when minimized</sys:String>
     <sys:String x:Key="IgnoreSame">Ignore the same barcodes</sys:String>
     <sys:String x:Key="CaptureMode">Capture Mode: </sys:String>
